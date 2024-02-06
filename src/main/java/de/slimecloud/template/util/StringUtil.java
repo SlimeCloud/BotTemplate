@@ -3,7 +3,6 @@ package de.slimecloud.template.util;
 import de.slimecloud.template.config.engine.ValidationException;
 import de.slimecloud.template.util.types.AtomicString;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import org.apache.commons.collections.
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
