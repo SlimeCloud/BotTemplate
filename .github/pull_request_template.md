@@ -1,6 +1,6 @@
 ## Checklist
 
- - [ ] Read [Contribution Guidelines](https://github.com/SlimeCloud/java-SlimeBot#-contributing) and [Style Guides](https://github.com/SlimeCloud/java-SlimeBot#-style-guide)
+ - [ ] Read [Contribution Guidelines](https://github.com/SlimeCloud/template-bot#-contributing) and [Style Guides](https://github.com/SlimeCloud/template-bot#-style-guide)
  - [ ] Test the Code
  - [ ] This PR is ready to review and merge
 
@@ -8,6 +8,6 @@
 Describe what you have changed
 
 ## Related Issue
-Is this PR related to an [issue](https://github.com/SlimeCloud/java-SlimeBot/issues)?
+Is this PR related to an [issue](https://github.com/SlimeCloud/template-bot/issues)?
 
 ## Other Information
