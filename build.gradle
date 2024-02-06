@@ -1,0 +1,114 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+    id 'idea'
+
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+}
+
+mainClassName = "de.slimecloud.slimeball.main.Main"
+
+group 'de.slimebot'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.mineking.dev/releases' }
+    maven { url 'https://maven.mineking.dev/snapshots' }
+
+    maven { url 'https://jitpack.io/' }
+}
+
+String lombokDependency = 'org.projectlombok:lombok:1.18.30'
+
+dependencies {
+    implementation 'net.dv8tion:JDA:5.0.0-beta.19'
+
+    implementation('de.mineking:DiscordUtils:3.8.1')
+    implementation 'de.mineking:JavaUtils:1.3.2'
+    implementation 'de.cyklon:JEvent:1.1.0'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'org.sejda.imageio:webp-imageio:0.1.6'
+    implementation 'ch.qos.logback:logback-classic:1.4.8'
+
+    implementation 'org.postgresql:postgresql:42.7.1'
+    implementation 'org.jdbi:jdbi3-postgres:3.42.0'
+
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+
+    compileOnly lombokDependency
+    annotationProcessor lombokDependency
+
+    testCompileOnly lombokDependency
+    testAnnotationProcessor lombokDependency
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+}
+
+String getVersion() {
+    String version = project.version.toString()
+
+    try {
+        String commit = 'git rev-parse --verify --short HEAD'.execute().text.trim()
+        version += "-" + commit
+    } catch (IOException ignore) {
+        version += "-unknown"
+    }
+
+    return version
+}
+
+tasks.register("prepareSources", Copy) {
+    delete("$buildDir/preparedSources")
+
+    from("src/main/java") {
+        include("**/BuildInfo.java")
+
+        filter(ReplaceTokens, "tokens":
+                Map.of(
+                        "VERSION", getVersion()
+                )
+        )
+    }
+
+    into("$buildDir/preparedSources")
+
+    includeEmptyDirs = false
+}
+
+compileJava {
+    FileTree javaSources = sourceSets.main.allJava.filter {
+        it.name != "BuildInfo.java"
+    }.asFileTree
+
+    source = javaSources + fileTree("$buildDir/preparedSources")
+
+    dependsOn "prepareSources"
+
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+    systemProperty "file.encoding", "utf-8"
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}

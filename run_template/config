@@ -1,0 +1,22 @@
+{
+  "defaultColor": "#569d3c",
+  "developerRole": 1080118753292976238,
+  "guildStorage": "guild/%guild%.json",
+
+  "activity": {
+    "interval": 10,
+    "activities": [
+      {"type": "PLAYING", "text": "mit Schleimbällen"},
+      {"type": "WATCHING", "text": "GamingguidesDE"},
+      {"type": "LISTENING", "text": "Vegastep"}
+    ]
+  },
+
+  "logForwarding": [
+    {"type": "CHANNEL", "id": 1122526257721131108}
+  ],
+
+  "timeoutIgnore": [
+    458302301187342336
+  ]
+}
